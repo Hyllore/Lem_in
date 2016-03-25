@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/11/26 16:13:31 by droly             #+#    #+#             */
+/*   Updated: 2015/12/03 18:03:19 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+void		*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	int		i;
+	char	*str;
+	char	*src1;
 
-
-#endif
+	i = 0;
+	str = (char*)dst;
+	src1 = (char*)src;
+	while (i < (int)n)
+	{
+		str[i] = src1[i];
+		i++;
+	}
+	return (str);
+}

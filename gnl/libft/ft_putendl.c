@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/12/04 14:14:17 by droly             #+#    #+#             */
+/*   Updated: 2015/12/07 15:20:14 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+void	ft_putendl(char const *s)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
-
-
-#endif
+	ft_putstr((char*)s);
+	ft_putchar('\n');
+}

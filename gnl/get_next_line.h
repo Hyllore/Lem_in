@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/12/30 11:56:05 by droly             #+#    #+#             */
+/*   Updated: 2016/01/12 16:58:55 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUFF_SIZE 100
+# include "libft/libft.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
-typedef struct	s_hex
-{
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
-
+int	get_next_line(int const fd, char **line);
 
 #endif

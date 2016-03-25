@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/12/01 16:43:43 by droly             #+#    #+#             */
+/*   Updated: 2015/12/03 19:19:10 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+void	*ft_memalloc(size_t size)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	void *tab;
 
-
-#endif
+	tab = malloc(sizeof(*tab) * size);
+	if (tab == NULL)
+		return (NULL);
+	ft_bzero(tab, size);
+	return (tab);
+}

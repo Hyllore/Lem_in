@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/11/26 18:57:21 by droly             #+#    #+#             */
+/*   Updated: 2015/12/07 16:38:48 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+void				*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	size_t			i;
+	unsigned char	*s1;
+	unsigned char	*s2;
 
-
-#endif
+	i = 0;
+	s1 = (unsigned char*)dst;
+	s2 = (unsigned char*)src;
+	if (!s1 && !s2)
+		return (NULL);
+	while (i < n)
+	{
+		s1[i] = s2[i];
+		if (s2[i] == (unsigned char)c)
+		{
+			i++;
+			return (char *)&(s1[i]);
+		}
+		i++;
+	}
+	return (NULL);
+}

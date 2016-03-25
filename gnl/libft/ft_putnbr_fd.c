@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/12/04 14:39:38 by droly             #+#    #+#             */
+/*   Updated: 2015/12/07 15:28:05 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+void	ft_putnbr_fd(int n, int fd)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	long num;
 
-
-#endif
+	num = (long)n;
+	if (num < 0)
+	{
+		num = num * -1;
+		ft_putchar_fd('-', fd);
+	}
+	if (num >= 10)
+	{
+		ft_putnbr_fd(num / 10, fd);
+		ft_putnbr_fd(num % 10, fd);
+	}
+	else
+		ft_putchar_fd(num + '0', fd);
+}

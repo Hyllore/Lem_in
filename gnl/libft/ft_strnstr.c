@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/11/25 11:47:35 by droly             #+#    #+#             */
+/*   Updated: 2015/12/08 16:48:26 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	size_t i;
 
-
-#endif
+	while (*s1 && n > 0)
+	{
+		i = 0;
+		while (s2[i] != '\0' && s1[i] == s2[i] && n > 0)
+		{
+			i++;
+			n--;
+		}
+		if (s2[i] == '\0')
+			return ((char *)s1);
+		n += i;
+		n--;
+		s1++;
+	}
+	return (NULL);
+}

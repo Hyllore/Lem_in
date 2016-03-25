@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/11/24 16:04:00 by droly             #+#    #+#             */
+/*   Updated: 2015/12/03 18:06:16 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+char	*ft_strdup(const char *s)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	int		i;
+	int		len;
+	char	*dst;
 
-
-#endif
+	i = 0;
+	len = 0;
+	while (s[len] != '\0')
+		len++;
+	dst = (char*)malloc(sizeof(char) * len + 1);
+	if (dst == NULL)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		dst[i] = s[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}

@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/12/02 12:31:57 by droly             #+#    #+#             */
+/*   Updated: 2015/12/03 12:02:44 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+char				*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	unsigned int	i;
+	char			*str;
 
-
-#endif
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	str = malloc(sizeof(char) * len + 1);
+	if (str == NULL)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (NULL);
+	while (i < len)
+	{
+		str[i] = s[i + start];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}

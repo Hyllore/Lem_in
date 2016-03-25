@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/11/27 16:28:42 by droly             #+#    #+#             */
+/*   Updated: 2015/11/28 15:36:29 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	int i;
+	int i2;
 
-
-#endif
+	i = 0;
+	i2 = 0;
+	while (s1[i] != '\0')
+		i++;
+	while (s2[i2] != '\0' && i2 < (int)n)
+	{
+		s1[i] = s2[i2];
+		i++;
+		i2++;
+	}
+	s1[i] = '\0';
+	return (s1);
+}

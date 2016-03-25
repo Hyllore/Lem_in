@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/03/25 17:27:57 by droly            ###   ########.fr       */
+/*   Created: 2015/11/27 10:55:50 by droly             #+#    #+#             */
+/*   Updated: 2015/12/02 15:09:17 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
-# include "ft_printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+#include "libft.h"
 
-typedef struct	s_hex
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	int			hex;
-	char		*start;
-	char		*end;
-	char		**rooms;
-	int			**links;
-}				t_hex;
+	unsigned int	i;
+	char			*tmp;
+	char			*s1;
+	char			*s2;
 
-
-#endif
+	i = 0;
+	tmp = (char*)malloc(sizeof(char) * (n + 1));
+	if (tmp == NULL)
+		return (NULL);
+	s1 = (char*)src;
+	s2 = (char*)dest;
+	while (i < n)
+	{
+		tmp[i] = s1[i];
+		i++;
+	}
+	i = 0;
+	while (i < n)
+	{
+		s2[i] = tmp[i];
+		i++;
+	}
+	free(tmp);
+	return (s2);
+}
