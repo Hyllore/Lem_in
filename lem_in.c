@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/03/28 17:08:04 by droly            ###   ########.fr       */
+/*   Updated: 2016/03/29 16:56:46 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@ int	main(int argc, char **argv)
 	char *tab2;
 	int fd;
 	t_hex *lst;
+	t_rooms	*rooms;
+	t_links	*links;
+	t_rooms	*tmpr;
+	t_links	*tmpl;
 
+	links = (t_links*)malloc(sizeof(t_links));
+	rooms = (t_rooms*)malloc(sizeof(t_rooms));
+	tmpr = rooms;
+	tmpl = links;
 	i2 = 0;
 	lst = (t_hex*)malloc(sizeof(t_hex));
 	lst->hex = 0;
@@ -35,6 +43,8 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (get_next_line(0, &tab2) != 0)
 	{
+		i = 0;
+		i2 = 0;
 		ft_putendl(tab2);
 		if (lst->hex == 0)
 			lst->hex = ft_atoi(tab2);
@@ -42,34 +52,69 @@ int	main(int argc, char **argv)
 			error();
 		else if (ft_strcmp("##start", tab2) == 0)
 		{
-			ft_putchar('e');
 			get_next_line(0, &tab2);
-			lst->start = ft_itoa(ft_atoi(tab2));
+			while (tab2[i] != ' ')
+				i++;
+			lst->start = malloc(sizeof(char) * i);
+			lst->start = ft_strncpy(lst->start, tab2, i);
 			ft_putendl(tab2);
 		}
 		else if (ft_strcmp("##end", tab2) == 0)
 		{
-			ft_putchar('u');
 			get_next_line(0, &tab2);
-			lst->end = ft_itoa(ft_atoi(tab2));
+			while (tab2[i] != ' ')
+				i++;
+			lst->end = malloc(sizeof(char) * i);
+			lst->end = ft_strncpy(lst->end, tab2, i);
 			ft_putendl(tab2);
 		}
 		else if (ft_strchr(tab2, '-') != NULL)
 		{
-			ft_putchar('e');
-			ft_putstr(tab2);
-			lst->links[i] = tab2;
-			ft_putstr("hey");
+			links->next = (t_links*)malloc(sizeof(t_links));
+			while (tab2[i] != '-')
+				i++;
+			links->room1 = malloc(sizeof(char) * i);
+			links->room1 = ft_strncpy(links->room1, tab2, i);
+			i = 0;
+//			printf("\n-:%s:u\n", links->room1);
+			while (tab2[i] != '-')
+				i++;
+			links->room2 = malloc(sizeof(char) * ft_strlen(&tab2[i]));
+			i2 = 0;
+			i = 0;
+			while (tab2[i] != '-')
+				i++;
 			i++;
+			links->room2 = ft_strcpy(links->room2, &tab2[i]);
+//			printf("\n:%s:\n", links->room2);
+			i = 0;
+			links = links->next;
 		}
-		else if (ft_strchr(tab2, ' ') != NULL)
+		else if (ft_strchr(tab2, ' ') != NULL && tab2[0] != '#')
 		{
-			ft_putchar('y');
-			ft_putstr(tab2);
-			lst->rooms[i2] = tab2;
-			ft_putchar('t');
+			rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
+			while (tab2[i] != ' ')
+				i++;
+			rooms->room = malloc(sizeof(char) * i);
+			rooms->room = ft_strncpy(rooms->room, tab2, i);
+			rooms = rooms->next;
 			i2++;
 		}
 	}
-	ft_putstr(lst->links[0]);
+	rooms->next = NULL;
+	links->next = NULL;
+	rooms = tmpr;
+	links = tmpl;
+	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->hex, lst->start, lst->end);
+	while (rooms->next != NULL)
+	{
+		printf("\nroom : %s", rooms->room);
+		rooms = rooms->next;
+	}
+	while (links->next != NULL)
+	{
+		printf("\nlinks : %s-%s", links->room1, links->room2);
+		links = links->next;
+	}
+//	ft_putstr(lst->links[0]);
 }
