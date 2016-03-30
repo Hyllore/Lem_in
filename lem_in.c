@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/03/29 16:56:46 by droly            ###   ########.fr       */
+/*   Updated: 2016/03/30 18:54:08 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,103 +18,133 @@ void	error(void)
 	exit(0);
 }
 
-int	main(int argc, char **argv)
+void	checkcoord(char *tab)
+{
+	int i;
+
+	i = 0;
+	ft_putchar('u');
+	ft_putstr(tab);
+	while (tab[i] != ' ' && tab[i] != '\0')
+		i++;
+	while (tab[i] != '\0')
+	{
+		ft_putchar('e');
+		if ((tab[i] < '0' || tab[i] > '9') && tab[i] != ' ')
+			error();
+		i++;
+	}
+}
+
+t_hex	*initializelst(char *tab, t_hex *lst, int i)
+{
+	if (lst->ants == 0)
+		lst->ants = ft_atoi(tab);
+	if (lst->ants == 0)
+		error();
+	else if (ft_strcmp("##start", tab) == 0)
+	{
+		get_next_line(0, &tab);
+		while (tab[i] != ' ')
+			i++;
+		lst->start = malloc(sizeof(char) * i);
+		lst->start = ft_strncpy(lst->start, tab, i);
+		ft_putendl(tab);
+	}
+	else if (ft_strcmp("##end", tab) == 0)
+	{
+		get_next_line(0, &tab);
+		while (tab[i] != ' ')
+			i++;
+		lst->end = malloc(sizeof(char) * i);
+		lst->end = ft_strncpy(lst->end, tab, i);
+		ft_putendl(tab);
+	}
+	checkcoord(tab);
+	return (lst);
+}
+
+t_hex	*initiaizelinks(char *tab, t_hex *lst)
 {
 	int i;
 	int i2;
-	char **tab;
-	char *tab2;
-	int fd;
-	t_hex *lst;
-	t_rooms	*rooms;
-	t_links	*links;
-	t_rooms	*tmpr;
-	t_links	*tmpl;
 
-	links = (t_links*)malloc(sizeof(t_links));
-	rooms = (t_rooms*)malloc(sizeof(t_rooms));
-	tmpr = rooms;
-	tmpl = links;
 	i2 = 0;
-	lst = (t_hex*)malloc(sizeof(t_hex));
-	lst->hex = 0;
-	tab2 = NULL;
-	tab = NULL;
 	i = 0;
-	while (get_next_line(0, &tab2) != 0)
+	lst->links->next = (t_links*)malloc(sizeof(t_links));
+	while (tab[i] != '-')
+		i++;
+	lst->links->room1 = malloc(sizeof(char) * i);
+	lst->links->room1 = ft_strncpy(lst->links->room1, tab, i);
+	i = 0;
+	while (tab[i] != '-')
+		i++;
+	lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]));
+	i2 = 0;
+	i = 0;
+	while (tab[i] != '-')
+		i++;
+	i++;
+	lst->links->room2 = ft_strcpy(lst->links->room2, &tab[i]);
+	i = 0;
+	lst->links = lst->links->next;
+	return (lst);
+}
+
+t_hex	*initialize(t_hex *lst, char *tab)
+{
+	int i;
+
+	i = 0;
+	while (get_next_line(0, &tab) != 0)
 	{
 		i = 0;
-		i2 = 0;
-		ft_putendl(tab2);
-		if (lst->hex == 0)
-			lst->hex = ft_atoi(tab2);
-		if (lst->hex == 0)
-			error();
-		else if (ft_strcmp("##start", tab2) == 0)
+		ft_putendl(tab);
+		lst = initializelst(tab, lst, 0);
+		if (ft_strchr(tab, '-') != NULL)
+			lst = initiaizelinks(tab, lst);
+		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#')
 		{
-			get_next_line(0, &tab2);
-			while (tab2[i] != ' ')
+			lst->rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
+			while (tab[i] != ' ')
 				i++;
-			lst->start = malloc(sizeof(char) * i);
-			lst->start = ft_strncpy(lst->start, tab2, i);
-			ft_putendl(tab2);
-		}
-		else if (ft_strcmp("##end", tab2) == 0)
-		{
-			get_next_line(0, &tab2);
-			while (tab2[i] != ' ')
-				i++;
-			lst->end = malloc(sizeof(char) * i);
-			lst->end = ft_strncpy(lst->end, tab2, i);
-			ft_putendl(tab2);
-		}
-		else if (ft_strchr(tab2, '-') != NULL)
-		{
-			links->next = (t_links*)malloc(sizeof(t_links));
-			while (tab2[i] != '-')
-				i++;
-			links->room1 = malloc(sizeof(char) * i);
-			links->room1 = ft_strncpy(links->room1, tab2, i);
-			i = 0;
-//			printf("\n-:%s:u\n", links->room1);
-			while (tab2[i] != '-')
-				i++;
-			links->room2 = malloc(sizeof(char) * ft_strlen(&tab2[i]));
-			i2 = 0;
-			i = 0;
-			while (tab2[i] != '-')
-				i++;
-			i++;
-			links->room2 = ft_strcpy(links->room2, &tab2[i]);
-//			printf("\n:%s:\n", links->room2);
-			i = 0;
-			links = links->next;
-		}
-		else if (ft_strchr(tab2, ' ') != NULL && tab2[0] != '#')
-		{
-			rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
-			while (tab2[i] != ' ')
-				i++;
-			rooms->room = malloc(sizeof(char) * i);
-			rooms->room = ft_strncpy(rooms->room, tab2, i);
-			rooms = rooms->next;
-			i2++;
+			lst->rooms->room = malloc(sizeof(char) * i);
+			lst->rooms->room = ft_strncpy(lst->rooms->room, tab, i);
+			lst->rooms = lst->rooms->next;
 		}
 	}
-	rooms->next = NULL;
-	links->next = NULL;
-	rooms = tmpr;
-	links = tmpl;
-	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->hex, lst->start, lst->end);
-	while (rooms->next != NULL)
+	lst->rooms->next = NULL;
+	lst->links->next = NULL;
+	lst->rooms = lst->tmpr;
+	lst->links = lst->tmpl;
+	return (lst);
+}
+
+int	main(void)
+{
+	int i;
+	char *tab;
+	t_hex	*lst;
+
+	lst = (t_hex*)malloc(sizeof(t_hex));
+	lst->links = (t_links*)malloc(sizeof(t_links));
+	lst->rooms = (t_rooms*)malloc(sizeof(t_rooms));
+	lst->tmpr = lst->rooms;
+	lst->tmpl = lst->links;
+	lst->ants = 0;
+	tab = NULL;
+	i = 0;
+	lst = initialize(lst, tab);
+	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
+			lst->end);
+	while (lst->rooms->next != NULL)
 	{
-		printf("\nroom : %s", rooms->room);
-		rooms = rooms->next;
+		printf("\nroom : %s", lst->rooms->room);
+		lst->rooms = lst->rooms->next;
 	}
-	while (links->next != NULL)
+	while (lst->links->next != NULL)
 	{
-		printf("\nlinks : %s-%s", links->room1, links->room2);
-		links = links->next;
+		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
+		lst->links = lst->links->next;
 	}
-//	ft_putstr(lst->links[0]);
 }
