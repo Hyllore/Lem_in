@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/03/30 18:54:08 by droly            ###   ########.fr       */
+/*   Updated: 2016/03/31 17:27:58 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,47 @@
 
 void	error(void)
 {
-	ft_putendl_fd("ERROR", 2);
+	ft_putendl_fd("\nERROR", 1);
 	exit(0);
 }
 
 void	checkcoord(char *tab)
 {
 	int i;
+	int i2;
 
+	i2 = 0;
 	i = 0;
-	ft_putchar('u');
-	ft_putstr(tab);
-	while (tab[i] != ' ' && tab[i] != '\0')
+	while (tab[i] != ' ' || tab[i] != '\0')
+	{
+		ft_putchar('e');
 		i++;
+		if (tab[i] == '\0')
+			return ;
+	}
+	i = 0;
 	while (tab[i] != '\0')
 	{
 		ft_putchar('e');
+		if (tab[i] == ' ')
+		{
+			ft_putchar('u');
+			i2++;
+		}
+		i++;
+	}
+	ft_putnbr(i2);
+	i2 = i2 - 2;
+	i = 0;
+	while (i2 != -1)
+	{
+		if (tab[i] == ' ')
+			i2--;
+		i++;
+	}
+	while (tab[i] != '\0')
+	{
+//		ft_putstr(&tab[i]);
 		if ((tab[i] < '0' || tab[i] > '9') && tab[i] != ' ')
 			error();
 		i++;
@@ -39,7 +64,10 @@ void	checkcoord(char *tab)
 t_hex	*initializelst(char *tab, t_hex *lst, int i)
 {
 	if (lst->ants == 0)
+	{
 		lst->ants = ft_atoi(tab);
+		return (lst);
+	}
 	if (lst->ants == 0)
 		error();
 	else if (ft_strcmp("##start", tab) == 0)
@@ -60,7 +88,7 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 		lst->end = ft_strncpy(lst->end, tab, i);
 		ft_putendl(tab);
 	}
-	checkcoord(tab);
+	(tab[0] == '#' && tab[1] == '#' ? 0 : checkcoord(tab));
 	return (lst);
 }
 
@@ -103,7 +131,7 @@ t_hex	*initialize(t_hex *lst, char *tab)
 		lst = initializelst(tab, lst, 0);
 		if (ft_strchr(tab, '-') != NULL)
 			lst = initiaizelinks(tab, lst);
-		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#')
+		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#' && tab[0] != 'L')
 		{
 			lst->rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
 			while (tab[i] != ' ')
