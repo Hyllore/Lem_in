@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/03/31 17:27:58 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/01 17:54:03 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ void	checkcoord(char *tab)
 
 	i2 = 0;
 	i = 0;
-	while (tab[i] != ' ' || tab[i] != '\0')
+	while (tab[i] != ' ' && tab[i] != '\0')
 	{
-		ft_putchar('e');
 		i++;
 		if (tab[i] == '\0')
 			return ;
@@ -35,18 +34,21 @@ void	checkcoord(char *tab)
 	i = 0;
 	while (tab[i] != '\0')
 	{
-		ft_putchar('e');
 		if (tab[i] == ' ')
 		{
-			ft_putchar('u');
+			while (tab[i] == ' ')
+				i++;
 			i2++;
 		}
 		i++;
 	}
-	ft_putnbr(i2);
-	i2 = i2 - 2;
+	if (i2 <= 1)
+		error();
+	i2--;
 	i = 0;
-	while (i2 != -1)
+	if (tab[0] == 'L')
+		error();
+	while (i2 != 0)
 	{
 		if (tab[i] == ' ')
 			i2--;
@@ -54,11 +56,44 @@ void	checkcoord(char *tab)
 	}
 	while (tab[i] != '\0')
 	{
-//		ft_putstr(&tab[i]);
 		if ((tab[i] < '0' || tab[i] > '9') && tab[i] != ' ')
 			error();
 		i++;
 	}
+}
+
+char	*takename(char *startend ,char *tab, int i)
+{
+	int i2;
+
+	i2 = 2;
+	while (tab[i] != '\0')
+		i++;
+	while (i2 != 0)
+	{
+		if (tab[i] >= '0' && tab[i] <= '9')
+		{
+			while (tab[i] >= '0' && tab[i] <= '9')
+				i--;
+			i2--;
+		}
+		if (i2 != 0)
+			i--;
+	};
+	startend = malloc(sizeof(char) * (i + 1));
+	startend = ft_strncpy(startend, tab, i);
+	startend[i] = '\0';
+	return (ft_strncpy(startend, tab, i));
+}
+
+char	*checkdiese(char *tab)
+{
+	while (tab[0] == '#')
+	{
+		ft_putendl(tab);
+		get_next_line(0, &tab);
+	}
+	return (tab);
 }
 
 t_hex	*initializelst(char *tab, t_hex *lst, int i)
@@ -73,19 +108,15 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	else if (ft_strcmp("##start", tab) == 0)
 	{
 		get_next_line(0, &tab);
-		while (tab[i] != ' ')
-			i++;
-		lst->start = malloc(sizeof(char) * i);
-		lst->start = ft_strncpy(lst->start, tab, i);
+		tab = checkdiese(tab);
+		lst->start = takename(lst->start, tab, 0);
 		ft_putendl(tab);
 	}
 	else if (ft_strcmp("##end", tab) == 0)
 	{
 		get_next_line(0, &tab);
-		while (tab[i] != ' ')
-			i++;
-		lst->end = malloc(sizeof(char) * i);
-		lst->end = ft_strncpy(lst->end, tab, i);
+		tab = checkdiese(tab);
+		lst->end = takename(lst->end, tab, 0);
 		ft_putendl(tab);
 	}
 	(tab[0] == '#' && tab[1] == '#' ? 0 : checkcoord(tab));
@@ -134,10 +165,7 @@ t_hex	*initialize(t_hex *lst, char *tab)
 		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#' && tab[0] != 'L')
 		{
 			lst->rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
-			while (tab[i] != ' ')
-				i++;
-			lst->rooms->room = malloc(sizeof(char) * i);
-			lst->rooms->room = ft_strncpy(lst->rooms->room, tab, i);
+			lst->rooms->room = takename(lst->rooms->room, tab, 0);
 			lst->rooms = lst->rooms->next;
 		}
 	}

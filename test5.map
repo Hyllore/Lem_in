@@ -1,9 +1,10 @@
 4
-L cool 5 1
+cool beaucoup cool 3 1
 ##start
-0 1 2
+debut du debut qui marche bien 1 2
 ##end
-1 42
+#commentaire
+fin de la fin reel   2     3
 3 5 4
 0-cool
 ##filsdepute
