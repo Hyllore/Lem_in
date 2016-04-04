@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/04 15:41:21 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/04 18:58:41 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,25 +147,49 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 	i++;
 	lst->links->room2 = ft_strcpy(lst->links->room2, &tab[i]);
 	i = 0;
+	if (ft_strcmp(lst->links->room1, lst->links->room2) == 0)
+		error();
 	lst->links = lst->links->next;
 	return (lst);
 }
 
-void	checklinks(t_hex *lst)
+void	addchecklinks(t_hex *lst, int i)
 {
-	int i;
+	lst->links = lst->tmpl;
+	lst->rooms = lst->tmpr;
+	while (lst->links->next != NULL)
+	{
+		i = 0;
+		if (ft_strcmp(lst->links->room2, lst->start) == 0)
+			i = 1;
+		if (ft_strcmp(lst->links->room2, lst->end) == 0)
+			i = 1;
+		lst->rooms = lst->tmpr;
+		while (lst->rooms->next != NULL)
+		{
+			if (ft_strcmp(lst->rooms->room, lst->links->room2) == 0)
+				i = 1;
+			lst->rooms = lst->rooms->next;
+		}
+		if (i == 0)
+			error();
+		lst->links = lst->links->next;
+	}
+}
 
-	i = 0;
-	while (lst->links != NULL)
+void	checklinks(t_hex *lst, int i)
+{
+	while (lst->links->next != NULL)
 	{
 		i = 0;
-		if (lst->links->room1 == lst->start)
+		if (ft_strcmp(lst->links->room1, lst->start) == 0)
 			i = 1;
-		if (lst->links->room1 == lst->end)
+		if (ft_strcmp(lst->links->room1, lst->end) == 0)
 			i = 1;
-		while (lst->rooms != NULL)
+		lst->rooms = lst->tmpr;
+		while (lst->rooms->next != NULL)
 		{
-			if (lst->rooms->room == lst->links->room1)
+			if (ft_strcmp(lst->rooms->room, lst->links->room1) == 0)
 				i = 1;
 			lst->rooms = lst->rooms->next;
 		}
@@ -173,23 +197,9 @@ void	checklinks(t_hex *lst)
 			error();
 		lst->links = lst->links->next;
 	}
-	while (lst->links != NULL)
-	{
-		i = 0;
-		if (lst->links->room2 == lst->start)
-			i = 1;
-		if (lst->links->room2 == lst->end)
-			i = 1;
-		while (lst->rooms != NULL)
-		{
-			if (lst->rooms->room == lst->links->room2)
-				i = 1;
-			lst->rooms = lst->rooms->next;
-		}
-		if (i == 0)
-			error();
-		lst->links = lst->links->next;
-	}
+	addchecklinks(lst, 0);
+	lst->links = lst->tmpl;
+	lst->rooms = lst->tmpr;
 }
 
 t_hex	*initialize(t_hex *lst, char *tab)
@@ -215,7 +225,7 @@ t_hex	*initialize(t_hex *lst, char *tab)
 	lst->links->next = NULL;
 	lst->rooms = lst->tmpr;
 	lst->links = lst->tmpl;
-	checklinks(lst);
+	checklinks(lst, 0);
 	return (lst);
 }
 
