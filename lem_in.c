@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/01 17:54:03 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/04 15:41:21 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,26 @@ void	error(void)
 	exit(0);
 }
 
-void	checkcoord(char *tab)
+void	addcheckcoord(char *tab, int i, int i2)
 {
-	int i;
-	int i2;
+	if (tab[0] == 'L')
+		error();
+	while (i2 != 0)
+	{
+		if (tab[i] == ' ')
+			i2--;
+		i++;
+	}
+	while (tab[i] != '\0')
+	{
+		if ((tab[i] < '0' || tab[i] > '9') && tab[i] != ' ')
+			error();
+		i++;
+	}
+}
 
-	i2 = 0;
-	i = 0;
+void	checkcoord(char *tab, int i, int i2)
+{
 	while (tab[i] != ' ' && tab[i] != '\0')
 	{
 		i++;
@@ -46,20 +59,7 @@ void	checkcoord(char *tab)
 		error();
 	i2--;
 	i = 0;
-	if (tab[0] == 'L')
-		error();
-	while (i2 != 0)
-	{
-		if (tab[i] == ' ')
-			i2--;
-		i++;
-	}
-	while (tab[i] != '\0')
-	{
-		if ((tab[i] < '0' || tab[i] > '9') && tab[i] != ' ')
-			error();
-		i++;
-	}
+	addcheckcoord(tab, i , i2);
 }
 
 char	*takename(char *startend ,char *tab, int i)
@@ -67,6 +67,7 @@ char	*takename(char *startend ,char *tab, int i)
 	int i2;
 
 	i2 = 2;
+	checkcoord(tab, 0, 0);
 	while (tab[i] != '\0')
 		i++;
 	while (i2 != 0)
@@ -79,7 +80,7 @@ char	*takename(char *startend ,char *tab, int i)
 		}
 		if (i2 != 0)
 			i--;
-	};
+	}
 	startend = malloc(sizeof(char) * (i + 1));
 	startend = ft_strncpy(startend, tab, i);
 	startend[i] = '\0';
@@ -119,7 +120,7 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 		lst->end = takename(lst->end, tab, 0);
 		ft_putendl(tab);
 	}
-	(tab[0] == '#' && tab[1] == '#' ? 0 : checkcoord(tab));
+	(tab[0] == '#' && tab[1] == '#' ? 0 : checkcoord(tab, 0, 0));
 	return (lst);
 }
 
@@ -150,6 +151,47 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 	return (lst);
 }
 
+void	checklinks(t_hex *lst)
+{
+	int i;
+
+	i = 0;
+	while (lst->links != NULL)
+	{
+		i = 0;
+		if (lst->links->room1 == lst->start)
+			i = 1;
+		if (lst->links->room1 == lst->end)
+			i = 1;
+		while (lst->rooms != NULL)
+		{
+			if (lst->rooms->room == lst->links->room1)
+				i = 1;
+			lst->rooms = lst->rooms->next;
+		}
+		if (i == 0)
+			error();
+		lst->links = lst->links->next;
+	}
+	while (lst->links != NULL)
+	{
+		i = 0;
+		if (lst->links->room2 == lst->start)
+			i = 1;
+		if (lst->links->room2 == lst->end)
+			i = 1;
+		while (lst->rooms != NULL)
+		{
+			if (lst->rooms->room == lst->links->room2)
+				i = 1;
+			lst->rooms = lst->rooms->next;
+		}
+		if (i == 0)
+			error();
+		lst->links = lst->links->next;
+	}
+}
+
 t_hex	*initialize(t_hex *lst, char *tab)
 {
 	int i;
@@ -173,6 +215,7 @@ t_hex	*initialize(t_hex *lst, char *tab)
 	lst->links->next = NULL;
 	lst->rooms = lst->tmpr;
 	lst->links = lst->tmpl;
+	checklinks(lst);
 	return (lst);
 }
 
