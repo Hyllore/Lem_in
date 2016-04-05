@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 15:59:21 by droly             #+#    #+#             */
-/*   Updated: 2015/12/04 10:34:16 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/05 15:50:38 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t n)
 		dst[i] = src[i];
 		i++;
 	}
+	dst[i] = '\0';
 	while (i < n)
 		dst[i++] = '\0';
 	return (dst);
