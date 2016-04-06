@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 17:46:00 by droly             #+#    #+#             */
-/*   Updated: 2016/04/06 11:37:21 by droly            ###   ########.fr       */
+/*   Created: 2016/04/06 15:57:43 by droly             #+#    #+#             */
+/*   Updated: 2016/04/06 18:04:22 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "lem_in.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+t_tree	*make_tree(t_hex *lst, t_tree *tree, t_tree *tmp)
 {
 	int i;
-	int dst;
-	int i2;
 
-	if (n == 0)
-		return (0);
-	i2 = (int)n;
-	dst = 0;
 	i = 0;
-	while ((s1[i] != '\0') && (s2[i] != '\0') && n > 0)
+	while (lst->links->next != NULL)
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-		n--;
+		if (lst->links->room1 == tree->data || lst->links->room2 == tree->data)
+			i++;
+		lst->links = lst->links->next;
 	}
-	if (n > 0)
-		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-	return (0);
+	tree->childs = malloc(sizeof(t_tree) * i);
+
+
+
+	return (tree);
 }

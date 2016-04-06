@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:58:30 by droly             #+#    #+#             */
-/*   Updated: 2016/04/05 18:21:56 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/06 12:18:25 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,38 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	{
 		get_next_line(0, &tab);
 		tab = checkdiese(tab);
-		lst->start = takename(lst->start, tab, 0);
+		lst->start = takename(lst->start, tab, 0, 2);
 		ft_putendl(tab);
 	}
 	else if (ft_strcmp("##end", tab) == 0)
 	{
 		get_next_line(0, &tab);
 		tab = checkdiese(tab);
-		lst->end = takename(lst->end, tab, 0);
+		lst->end = takename(lst->end, tab, 0, 2);
 		ft_putendl(tab);
 	}
 	(tab[0] == '#' && tab[1] == '#' ? 0 : checkcoord(tab, 0, 0));
 	return (lst);
 }
 
-char	*takename(char *startend, char *tab, int i)
+int		addtakename(char *tab, int i, int i2, int i3)
 {
-	int i2;
+	while (tab[i] >= '0' && tab[i] <= '9')
+	{
+		i3++;
+		i--;
+	}
+	if (ft_strncmp(ft_itoa(ft_atoi(&tab[i])), &tab[i + 1], i3) != 0)
+		error("\nERROR : it's not an int what I see in here.");
+	i3 = 0;
+	return (i);
+}
 
-	i2 = 2;
+char	*takename(char *startend, char *tab, int i, int i2)
+{
+	int i3;
+
+	i3 = 0;
 	checkcoord(tab, 0, 0);
 	while (tab[i] != '\0')
 		i++;
@@ -87,8 +100,7 @@ char	*takename(char *startend, char *tab, int i)
 	{
 		if (tab[i] >= '0' && tab[i] <= '9')
 		{
-			while (tab[i] >= '0' && tab[i] <= '9')
-				i--;
+			i = addtakename(tab, i, i2, i3);
 			i2--;
 		}
 		if (i2 != 0)
@@ -97,5 +109,5 @@ char	*takename(char *startend, char *tab, int i)
 	startend = malloc(sizeof(char) * (i + 1));
 	startend = ft_strncpy(startend, tab, i);
 	startend[i] = '\0';
-	return (ft_strncpy(startend, tab, i));
+	return (startend);
 }

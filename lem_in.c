@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/05 18:22:00 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/06 18:04:17 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_hex		*initialize(t_hex *lst, char *tab)
 		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#' && tab[0] != 'L')
 		{
 			lst->rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
-			lst->rooms->room = takename(lst->rooms->room, tab, 0);
+			lst->rooms->room = takename(lst->rooms->room, tab, 0, 2);
 			lst->rooms = lst->rooms->next;
 		}
 	}
@@ -72,7 +72,9 @@ int			main(void)
 	int		i;
 	char	*tab;
 	t_hex	*lst;
+	t_tree	*tree;
 
+	tree = (t_tree*)malloc(sizeof(t_tree));
 	lst = (t_hex*)malloc(sizeof(t_hex));
 	lst->links = (t_links*)malloc(sizeof(t_links));
 	lst->rooms = (t_rooms*)malloc(sizeof(t_rooms));
@@ -84,16 +86,19 @@ int			main(void)
 	tab = NULL;
 	i = 0;
 	lst = initialize(lst, tab);
-	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
-			lst->end);
-	while (lst->rooms->next != NULL)
-	{
-		printf("\nroom : %s", lst->rooms->room);
-		lst->rooms = lst->rooms->next;
-	}
-	while (lst->links->next != NULL)
-	{
-		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
-		lst->links = lst->links->next;
-	}
+	tree->data = lst->start;
+	tree->parent = NULL;
+	tree = make_tree(lst, tree, tree);
+//	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
+//			lst->end);
+//	while (lst->rooms->next != NULL)
+//	{
+//		printf("\nroom : %s", lst->rooms->room);
+//		lst->rooms = lst->rooms->next;
+//	}
+//	while (lst->links->next != NULL)
+//	{
+//		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
+//		lst->links = lst->links->next;
+//	}
 }

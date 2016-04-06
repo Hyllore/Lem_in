@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/05 18:21:24 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/06 18:04:19 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ typedef struct		s_hex
 	t_links			*tmpl;
 }					t_hex;
 
+typedef struct		b_tree
+{
+	struct b_tree	*parent;
+	char			*data;
+	struct b_tree	**childs;
+}					t_tree;
+
 t_hex				*initiaizelinks(char *tab, t_hex *lst);
 void				addchecklinks(t_hex *lst, int i);
 void				checklinks(t_hex *lst, int i);
@@ -46,9 +53,10 @@ t_hex				*analizestartend(t_hex *lst);
 t_hex				*initializelst(char *tab, t_hex *lst, int i);
 t_hex				*initialize(t_hex *lst, char *tab);
 char				*checkdiese(char *tab);
-char				*takename(char *startend, char *tab, int i);
+char				*takename(char *startend, char *tab, int i, int i2);
 void				checkcoord(char *tab, int i, int i2);
 void				addcheckcoord(char *tab, int i, int i2);
 void				error(char *str);
+t_tree				*make_tree(t_hex *lst, t_tree *tree, t_tree *tmp);
 
 #endif
