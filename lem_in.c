@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/06 18:04:17 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/07 18:46:13 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_hex		*initialize(t_hex *lst, char *tab)
 			lst->rooms->room = takename(lst->rooms->room, tab, 0, 2);
 			lst->rooms = lst->rooms->next;
 		}
+		if (tab != NULL)
+			ft_strdel(&tab);
 	}
 	lst->rooms->next = NULL;
 	lst->links->next = NULL;
@@ -86,8 +88,12 @@ int			main(void)
 	tab = NULL;
 	i = 0;
 	lst = initialize(lst, tab);
-	tree->data = lst->start;
+	tree->data = (char *)malloc(ft_strlen(lst->start));
+	ft_strcpy(tree->data, lst->start);
+//	tree->data = lst->start;
+	printf("tree->data = '%s'\n", tree->data);
 	tree->parent = NULL;
+	tree->childs = NULL;
 	tree = make_tree(lst, tree, tree);
 //	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 //			lst->end);

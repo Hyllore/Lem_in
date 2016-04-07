@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/06 18:04:19 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/07 16:53:53 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct		b_tree
 {
 	struct b_tree	*parent;
 	char			*data;
+//	int				floor;
 	struct b_tree	**childs;
 }					t_tree;
 
@@ -58,5 +59,4 @@ void				checkcoord(char *tab, int i, int i2);
 void				addcheckcoord(char *tab, int i, int i2);
 void				error(char *str);
 t_tree				*make_tree(t_hex *lst, t_tree *tree, t_tree *tmp);
-
 #endif

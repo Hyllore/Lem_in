@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:58:30 by droly             #+#    #+#             */
-/*   Updated: 2016/04/06 12:18:25 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/07 18:46:06 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*checkdiese(char *tab)
 	while (tab[0] == '#' && tab[1] != '#')
 	{
 		ft_putendl(tab);
+		if (tab != NULL)
+			ft_strdel(&tab);
 		get_next_line(0, &tab);
 	}
 	return (tab);
@@ -25,24 +27,26 @@ char	*checkdiese(char *tab)
 t_hex	*initiaizelinks(char *tab, t_hex *lst)
 {
 	int i;
-	int i2;
 
-	i2 = 0;
 	i = 0;
 	lst->links->next = (t_links*)malloc(sizeof(t_links));
 	while (tab[i] != '-')
 		i++;
+	ft_putchar('$');
+	ft_putnbr(i);
 	lst->links->room1 = malloc(sizeof(char) * i);
 	lst->links->room1 = ft_strncpy(lst->links->room1, tab, i);
 	i = 0;
 	while (tab[i] != '-')
 		i++;
-	lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]));
-	i2 = 0;
-	i = 0;
-	while (tab[i] != '-')
-		i++;
 	i++;
+	ft_putchar(':');
+	ft_putnbr(ft_strlen(&tab[i]));
+	ft_putchar(':');
+	lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]));
+	ft_putchar('{');
+	ft_putstr(&tab[i]);
+	ft_putchar('}');
 	lst->links->room2 = ft_strcpy(lst->links->room2, &tab[i]);
 	i = 0;
 	if (ft_strcmp(lst->links->room1, lst->links->room2) == 0)
@@ -59,6 +63,8 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 		error("\nERROR : Do you think I can do something without ants ??");
 	else if (ft_strcmp("##start", tab) == 0)
 	{
+		if (tab != NULL)
+			ft_strdel(&tab);
 		get_next_line(0, &tab);
 		tab = checkdiese(tab);
 		lst->start = takename(lst->start, tab, 0, 2);
@@ -66,6 +72,8 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	}
 	else if (ft_strcmp("##end", tab) == 0)
 	{
+		if (tab != NULL)
+			ft_strdel(&tab);
 		get_next_line(0, &tab);
 		tab = checkdiese(tab);
 		lst->end = takename(lst->end, tab, 0, 2);
@@ -98,15 +106,14 @@ char	*takename(char *startend, char *tab, int i, int i2)
 		i++;
 	while (i2 != 0)
 	{
+	printf("\n[%d-%d]\n", i, i2);
 		if (tab[i] >= '0' && tab[i] <= '9')
-		{
-			i = addtakename(tab, i, i2, i3);
-			i2--;
-		}
+			i = addtakename(tab, i, i2--, i3);
 		if (i2 != 0)
 			i--;
+	printf("\n[%d-%d]\n", i, i2);
 	}
-	startend = malloc(sizeof(char) * (i + 1));
+	startend = malloc(sizeof(char) * (i));
 	startend = ft_strncpy(startend, tab, i);
 	startend[i] = '\0';
 	return (startend);
