@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/07 18:46:13 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/08 15:20:50 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,24 @@ t_hex		*initialize(t_hex *lst, char *tab)
 	int		i;
 
 	i = 0;
-	while (get_next_line(0, &tab) != 0)
+	while (get_next_line(0, &tab) == 1)
 	{
 		i = 0;
 		tab = checkdiese(tab);
 		ft_putendl(tab);
+//		while (tab[i] != '\0')
+//		{
+//			ft_putchar(tab[i]);
+//			i++;
+//		}
+//		i = 0;
 		lst = initializelst(tab, lst, 0);
 		if (ft_strchr(tab, '-') != NULL)
 			lst = initiaizelinks(tab, lst);
 		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#' && tab[0] != 'L')
 		{
-			lst->rooms->next = (t_rooms*)malloc(sizeof(t_rooms));
+			if ((lst->rooms->next = (t_rooms*)malloc(sizeof(t_rooms))) == NULL)
+				error("ERROR : Malloc NULL.");
 			lst->rooms->room = takename(lst->rooms->room, tab, 0, 2);
 			lst->rooms = lst->rooms->next;
 		}
@@ -76,10 +83,14 @@ int			main(void)
 	t_hex	*lst;
 	t_tree	*tree;
 
-	tree = (t_tree*)malloc(sizeof(t_tree));
-	lst = (t_hex*)malloc(sizeof(t_hex));
-	lst->links = (t_links*)malloc(sizeof(t_links));
-	lst->rooms = (t_rooms*)malloc(sizeof(t_rooms));
+	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL)
+		error("ERROR : Malloc NULL.");
+	if ((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL)
+		error("ERROR : Malloc NULL.");
+	if ((lst->links = (t_links*)malloc(sizeof(t_links))) == NULL)
+		error("ERROR : Malloc NULL.");
+	if ((lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL)
+		error("ERROR : Malloc NULL.");
 	lst->tmpr = lst->rooms;
 	lst->tmpl = lst->links;
 	lst->start = NULL;
@@ -88,7 +99,8 @@ int			main(void)
 	tab = NULL;
 	i = 0;
 	lst = initialize(lst, tab);
-	tree->data = (char *)malloc(ft_strlen(lst->start));
+	if ((tree->data = (char *)malloc(ft_strlen(lst->start))) == NULL)
+		error("ERROR : Malloc NULL.");
 	ft_strcpy(tree->data, lst->start);
 //	tree->data = lst->start;
 	printf("tree->data = '%s'\n", tree->data);

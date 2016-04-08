@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:58:30 by droly             #+#    #+#             */
-/*   Updated: 2016/04/07 18:46:06 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/08 14:11:34 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*checkdiese(char *tab)
 		ft_putendl(tab);
 		if (tab != NULL)
 			ft_strdel(&tab);
-		get_next_line(0, &tab);
+		if (get_next_line(0, &tab) != 1)
+			error("ERROR.");
 	}
 	return (tab);
 }
@@ -29,12 +30,14 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 	int i;
 
 	i = 0;
-	lst->links->next = (t_links*)malloc(sizeof(t_links));
+	if ((lst->links->next = (t_links*)malloc(sizeof(t_links))) == NULL)
+		error("ERROR : Malloc NULL.");
 	while (tab[i] != '-')
 		i++;
 	ft_putchar('$');
 	ft_putnbr(i);
-	lst->links->room1 = malloc(sizeof(char) * i);
+	if ((lst->links->room1 = malloc(sizeof(char) * i)) == NULL)
+		error("ERROR : Malloc NULL.");
 	lst->links->room1 = ft_strncpy(lst->links->room1, tab, i);
 	i = 0;
 	while (tab[i] != '-')
@@ -43,7 +46,8 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 	ft_putchar(':');
 	ft_putnbr(ft_strlen(&tab[i]));
 	ft_putchar(':');
-	lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]));
+	if ((lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]))) == NULL)
+		error("ERROR : Malloc NULL.");
 	ft_putchar('{');
 	ft_putstr(&tab[i]);
 	ft_putchar('}');
@@ -65,7 +69,8 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	{
 		if (tab != NULL)
 			ft_strdel(&tab);
-		get_next_line(0, &tab);
+		if (get_next_line(0, &tab) != 1)
+			error("ERROR.");
 		tab = checkdiese(tab);
 		lst->start = takename(lst->start, tab, 0, 2);
 		ft_putendl(tab);
@@ -74,7 +79,8 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	{
 		if (tab != NULL)
 			ft_strdel(&tab);
-		get_next_line(0, &tab);
+		if (get_next_line(0, &tab) != 1)
+			error("ERROR.");
 		tab = checkdiese(tab);
 		lst->end = takename(lst->end, tab, 0, 2);
 		ft_putendl(tab);
@@ -113,7 +119,9 @@ char	*takename(char *startend, char *tab, int i, int i2)
 			i--;
 	printf("\n[%d-%d]\n", i, i2);
 	}
-	startend = malloc(sizeof(char) * (i));
+	if ((startend = malloc(sizeof(char) * (i + 1))) == NULL)
+		error("ERROR : Malloc NULL.");
+//	ft_putstr(tab);
 	startend = ft_strncpy(startend, tab, i);
 	startend[i] = '\0';
 	return (startend);
