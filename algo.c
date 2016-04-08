@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 15:57:43 by droly             #+#    #+#             */
-/*   Updated: 2016/04/08 14:12:41 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/08 18:09:53 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ t_tree	*make_tree(t_hex *lst, t_tree *tree, t_tree *tmp)
 		error("ERROR : Malloc NULL.");
 	ft_putchar('u');
 	printf("\ni = %i\n", i);
+	tree->childs[0] = NULL;
+	tree->childs[1] = NULL;
+	if (tree->childs[0])
+		ft_putstr("EXISTE\n");
+	if (!tree->childs[0])
+		ft_putstr("N'EXISTE\n");
 	if ((tree->childs[0]->data = (char *)malloc(ft_strlen(lst->start))) == NULL)
 		error("ERROR : Malloc NULL.");
 	if ((tree->childs[1]->data = (char *)malloc(ft_strlen(lst->end))) == NULL)

@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:58:30 by droly             #+#    #+#             */
-/*   Updated: 2016/04/08 14:11:34 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/08 17:07:11 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 		i++;
 	ft_putchar('$');
 	ft_putnbr(i);
-	if ((lst->links->room1 = malloc(sizeof(char) * i)) == NULL)
+	ft_putchar('*');
+	if ((lst->links->room1 = malloc(sizeof(char) * i + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
 	lst->links->room1 = ft_strncpy(lst->links->room1, tab, i);
 	i = 0;
@@ -46,7 +47,7 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 	ft_putchar(':');
 	ft_putnbr(ft_strlen(&tab[i]));
 	ft_putchar(':');
-	if ((lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]))) == NULL)
+	if ((lst->links->room2 = malloc(sizeof(char) * ft_strlen(&tab[i]) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
 	ft_putchar('{');
 	ft_putstr(&tab[i]);
@@ -67,8 +68,8 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 		error("\nERROR : Do you think I can do something without ants ??");
 	else if (ft_strcmp("##start", tab) == 0)
 	{
-		if (tab != NULL)
-			ft_strdel(&tab);
+//		if (tab != NULL)
+//			ft_strdel(&tab);
 		if (get_next_line(0, &tab) != 1)
 			error("ERROR.");
 		tab = checkdiese(tab);
@@ -77,8 +78,8 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	}
 	else if (ft_strcmp("##end", tab) == 0)
 	{
-		if (tab != NULL)
-			ft_strdel(&tab);
+//		if (tab != NULL)
+//			ft_strdel(&tab);
 		if (get_next_line(0, &tab) != 1)
 			error("ERROR.");
 		tab = checkdiese(tab);
