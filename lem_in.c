@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/08 18:09:49 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/11 18:42:53 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,31 @@ t_hex		*initialize(t_hex *lst, char *tab)
 	return (lst);
 }
 
+void		checkstartend(t_hex *lst)
+{
+	int i;
+	int i2;
+
+	i = 0;
+	i2 = 0;
+	while (lst->links->next != NULL)
+	{
+		if (ft_strcmp(lst->links->room1, lst->start) == 0 || ft_strcmp(lst->links->room2, lst->start) == 0)
+			i = 1;
+		lst->links = lst->links->next;
+	}
+	lst->links = lst->tmpl;
+	while (lst->links->next != NULL)
+	{
+		if (ft_strcmp(lst->links->room1, lst->end) == 0 || ft_strcmp(lst->links->room2, lst->end) == 0)
+			i2 = 1;
+		lst->links = lst->links->next;
+	}
+	lst->links = lst->tmpl;
+	if (i == 0 || i2 == 0)
+		error("ERROR : Ending or starting is not link with others rooms");
+}
+
 int			main(void)
 {
 	int		i;
@@ -106,24 +131,25 @@ int			main(void)
 	tab = NULL;
 	i = 0;
 	lst = initialize(lst, tab);
+	checkstartend(lst);
 	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
 	ft_strcpy(tree->data, lst->start);
-//	tree->data = lst->start;
-	printf("tree->data = '%s'\n", tree->data);
+	tree->data = lst->start;
+//	printf("tree->data = '%s'\n", tree->data);
 	tree->parent = NULL;
 	tree->childs = NULL;
 	tree = make_tree(lst, tree, tree);
-//	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
-//			lst->end);
-//	while (lst->rooms->next != NULL)
-//	{
-//		printf("\nroom : %s", lst->rooms->room);
-//		lst->rooms = lst->rooms->next;
-//	}
-//	while (lst->links->next != NULL)
-//	{
-//		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
-//		lst->links = lst->links->next;
-//	}
+	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
+			lst->end);
+	while (lst->rooms->next != NULL)
+	{
+		printf("\nroom : %s", lst->rooms->room);
+		lst->rooms = lst->rooms->next;
+	}
+	while (lst->links->next != NULL)
+	{
+		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
+		lst->links = lst->links->next;
+	}
 }
