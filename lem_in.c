@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/11 18:42:53 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/12 18:39:37 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,10 @@ int			main(void)
 	t_hex	*lst;
 	t_tree	*tree;
 
-	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL)
-		error("ERROR : Malloc NULL.");
-	if ((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL)
-		error("ERROR : Malloc NULL.");
-	if ((lst->links = (t_links*)malloc(sizeof(t_links))) == NULL)
-		error("ERROR : Malloc NULL.");
-	if ((lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL)
+	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL || (lst =
+				(t_hex*)malloc(sizeof(t_hex))) == NULL || (lst->links =
+				(t_links*)malloc(sizeof(t_links))) == NULL ||
+			(lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL)
 		error("ERROR : Malloc NULL.");
 	lst->tmpr = lst->rooms;
 	lst->tmpl = lst->links;
@@ -139,7 +136,7 @@ int			main(void)
 //	printf("tree->data = '%s'\n", tree->data);
 	tree->parent = NULL;
 	tree->childs = NULL;
-	tree = make_tree(lst, tree, tree);
+	tree = make_tree(lst, tree);
 	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 			lst->end);
 	while (lst->rooms->next != NULL)
