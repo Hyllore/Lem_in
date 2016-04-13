@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/12 18:39:35 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/13 18:34:10 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ typedef struct		s_links
 	struct s_links	*next;
 }					t_links;
 
+typedef struct		b_tree
+{
+	struct b_tree	*parent;
+	char			*data;
+	int				floor;
+	struct b_tree	**childs;
+}					t_tree;
+
 typedef struct		s_hex
 {
 	int				stop;
@@ -38,15 +46,8 @@ typedef struct		s_hex
 	t_links			*links;
 	t_rooms			*tmpr;
 	t_links			*tmpl;
+	t_tree			*tree;
 }					t_hex;
-
-typedef struct		b_tree
-{
-	struct b_tree	*parent;
-	char			*data;
-	int				floor;
-	struct b_tree	**childs;
-}					t_tree;
 
 t_hex				*initiaizelinks(char *tab, t_hex *lst);
 void				addchecklinks(t_hex *lst, int i);
@@ -59,5 +60,5 @@ char				*takename(char *startend, char *tab, int i, int i2);
 void				checkcoord(char *tab, int i, int i2);
 void				addcheckcoord(char *tab, int i, int i2);
 void				error(char *str);
-t_tree				*make_tree(t_hex *lst, t_tree *tree);
+t_tree				*make_tree(t_hex *lst, int i);
 #endif

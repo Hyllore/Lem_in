@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/12 18:39:37 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/13 18:34:03 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,12 @@ int			main(void)
 	int		i;
 	char	*tab;
 	t_hex	*lst;
-	t_tree	*tree;
+//	t_tree	*tree;
 
-	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL || (lst =
-				(t_hex*)malloc(sizeof(t_hex))) == NULL || (lst->links =
+	if (((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL || (lst->tree =
+				(t_tree*)malloc(sizeof(t_tree))) == NULL || (lst->links =
 				(t_links*)malloc(sizeof(t_links))) == NULL ||
-			(lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL)
+			(lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL))
 		error("ERROR : Malloc NULL.");
 	lst->tmpr = lst->rooms;
 	lst->tmpl = lst->links;
@@ -129,14 +129,15 @@ int			main(void)
 	i = 0;
 	lst = initialize(lst, tab);
 	checkstartend(lst);
-	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
+	if ((lst->tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
-	ft_strcpy(tree->data, lst->start);
-	tree->data = lst->start;
+	ft_strcpy(lst->tree->data, lst->start);
+	lst->tree->data = lst->start;
 //	printf("tree->data = '%s'\n", tree->data);
-	tree->parent = NULL;
-	tree->childs = NULL;
-	tree = make_tree(lst, tree);
+	lst->tree->parent = NULL;
+	lst->tree->childs = NULL;
+	lst->tree->floor = 0;
+	lst->tree = make_tree(lst, 0);
 	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 			lst->end);
 	while (lst->rooms->next != NULL)
