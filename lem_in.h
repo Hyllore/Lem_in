@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/13 18:34:10 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/14 18:24:12 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ typedef struct		s_links
 
 typedef struct		b_tree
 {
-	struct b_tree	*parent;
 	char			*data;
 	int				floor;
+	struct b_tree	*parent;
 	struct b_tree	**childs;
 }					t_tree;
 
@@ -60,5 +60,6 @@ char				*takename(char *startend, char *tab, int i, int i2);
 void				checkcoord(char *tab, int i, int i2);
 void				addcheckcoord(char *tab, int i, int i2);
 void				error(char *str);
-t_tree				*make_tree(t_hex *lst, int i);
+t_hex				*make_tree(t_hex *lst, t_tree *tree, int i);
+
 #endif

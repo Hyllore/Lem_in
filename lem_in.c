@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/13 18:34:03 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/14 18:24:14 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int			main(void)
 	lst->tree->parent = NULL;
 	lst->tree->childs = NULL;
 	lst->tree->floor = 0;
-	lst->tree = make_tree(lst, 0);
+	lst = make_tree(lst, lst->tree, 0);
 	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 			lst->end);
 	while (lst->rooms->next != NULL)

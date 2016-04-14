@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 15:57:43 by droly             #+#    #+#             */
-/*   Updated: 2016/04/13 18:34:06 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/14 18:24:16 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,102 @@
 
 t_tree	*malloc_childs(t_tree *tree, t_hex *lst, int i, int i2)
 {
+	lst->links = lst->tmpl;
+	lst->rooms = lst->tmpr;
 	while (lst->links->next != NULL)
 	{
-		if (ft_strcmp(lst->links->room1, lst->tree->data) == 0 ||
-				ft_strcmp(lst->links->room2, lst->tree->data) == 0)
+		if (ft_strcmp(lst->links->room1, tree->data) == 0 ||
+				ft_strcmp(lst->links->room2, tree->data) == 0)
 			i++;
 		lst->links = lst->links->next;
 	}
 	lst->links = lst->tmpl;
 	lst->rooms = lst->tmpr;
-	if ((lst->tree->childs = (t_tree **)malloc(sizeof(t_tree *) * (i + 1))) == NULL)
+	printf("\nmalloc compteur : %d\n", i);
+	if ((tree->childs = (t_tree **)malloc(sizeof(t_tree *) * (i + 1))) == NULL)
 		error("ERROR : Malloc NULL.");
 	while (i2 != i + 1)
 	{
-		lst->tree->childs[i2] = (t_tree *)malloc(sizeof(t_tree));
+		tree->childs[i2] = (t_tree *)malloc(sizeof(t_tree));
 		i2++;
 	}
-	return (lst->tree);
+	return (tree);
 }
 
 int		check_parents(t_hex *lst, t_tree *tree, char *str)
 {
-	while (lst->tree->parent != NULL)
+	ft_putchar('t');
+	while (tree->parent != NULL)
 	{
-		if (ft_strcmp(lst->tree->data, str) == 0)
+		ft_putstr(tree->data);
+		ft_putchar('$');
+		ft_putstr(str);
+		ft_putchar('$');
+		if (ft_strcmp(tree->data, str) == 0)
 			return (0);
-		lst->tree = lst->tree->parent;
+		tree = tree->parent;
 	}
+	ft_putstr(tree->data);
+	ft_putchar('$');
+	ft_putstr(str);
+	ft_putchar('$');
+	if (ft_strcmp(tree->data, str) == 0)
+		return (0);
 	return (1);
 }
 
 t_tree	*make_childs(t_hex *lst, t_tree *tree, int i, int i2)
 {
 	ft_putchar('{');
-	ft_putstr(lst->tree->data);
+	ft_putstr(tree->data);
 	ft_putchar('}');
 	while (lst->links->next != NULL)
 	{
-		if (ft_strcmp(lst->links->room1, lst->tree->data) == 0)
+		sleep(1);
+		if (ft_strcmp(lst->links->room1, tree->data) == 0)
 		{
-			ft_putchar('r');
-			if (check_parents(lst, lst->tree, lst->links->room2) == 1)
+//			ft_putchar('r');
+			if (check_parents(lst, tree, lst->links->room2) == 1)
 			{
-				ft_putchar('x');
-				if ((lst->tree->childs[i]->data =
+//				ft_putchar('x');
+//				ft_putstr(lst->links->room2);
+				printf("\nroom2 : %s salle : %d\n", lst->links->room2, i);
+				if ((tree->childs[i]->data =
 					(char *)malloc(ft_strlen(lst->links->room2) + 1)) == NULL)
 					error("ERROR : Malloc NULL.");
-				lst->tree->childs[i]->data = ft_strcpy(lst->tree->childs[i]->data,
+//				ft_putchar('u');
+				tree->childs[i]->data = ft_strcpy(tree->childs[i]->data,
 						lst->links->room2);
-				lst->tree->childs[i]->floor = tree->floor + 1;
-				ft_putendl(lst->tree->childs[i]->data);
+				tree->childs[i]->floor = tree->floor + 1;
+				tree->childs[i]->parent = tree;
+//				ft_putendl(tree->childs[i]->data);
 				i++;
 			}
 		}
-		ft_putchar('e');
-			if (ft_strcmp(lst->links->room2, lst->tree->data) == 0)
+//		ft_putchar('e');
+			if (ft_strcmp(lst->links->room2, tree->data) == 0)
 		{
-			ft_putchar('u');
-			if (check_parents(lst, lst->tree, lst->links->room1))
+//			ft_putchar('u');
+			if (check_parents(lst, tree, lst->links->room1))
 			{
-				if ((lst->tree->childs[i]->data =
+				printf("\nroom1 : %s salle : %d\n", lst->links->room1, i);
+				if ((tree->childs[i]->data =
 					(char *)malloc(ft_strlen(lst->links->room1) + 1)) == NULL)
-					error("ERROR : Malloc NULL.");
-				lst->tree->childs[i]->data = ft_strcpy(lst->tree->childs[i]->data,
+//					error("ERROR : Malloc NULL.");
+				tree->childs[i]->data = ft_strcpy(tree->childs[i]->data,
 						lst->links->room1);
-				lst->tree->childs[i]->floor = lst->tree->floor + 1;
+				tree->childs[i]->floor = tree->floor + 1;
+				tree->childs[i]->parent = tree;
 				i++;
 			}
 		}
 		lst->links = lst->links->next;
 	}
-	lst->tree->childs[i] = NULL;
-	return (lst->tree);
+	tree->childs[i] = NULL;
+	return (tree);
 }
 
-t_tree	*make_tree(t_hex *lst, t_tree *tree, int i)
+t_hex	*make_tree(t_hex *lst, t_tree *tree, int i)
 {
 //	int i;
 //	int i2;
@@ -96,23 +117,24 @@ t_tree	*make_tree(t_hex *lst, t_tree *tree, int i)
 //	i2 = 0;
 	lst->stop = 0;
 	i = 0;
-	if (ft_strcmp(lst->tree->data, lst->end) != 0 && lst->stop != 1)
+	if (ft_strcmp(tree->data, lst->end) != 0 && lst->stop != 1)
 	{
-		lst->tree = malloc_childs(lst->tree, lst, 0, 0);
-		lst->tree = make_childs(lst, lst->tree, 0, 0);
-		while (lst->tree->childs[i] != NULL)
+		tree = malloc_childs(tree, lst, 0, 0);
+		tree = make_childs(lst, tree, 0, 0);
+		while (tree->childs[i] != NULL)
 		{
-			ft_putendl(lst->tree->data);
+			sleep(1);
+			ft_putendl(tree->data);
 			ft_putchar(':');
-			ft_putendl(lst->tree->childs[i]->data);
-			lst->tree = make_tree(lst, lst->tree, i++);
+			ft_putendl(tree->childs[i]->data);
+			lst = make_tree(lst, tree->childs[i], i);
 //			i++;
 		}
 	}
-	if (ft_strcmp(lst->tree->data, lst->end) == 0)
+	if (ft_strcmp(tree->data, lst->end) == 0)
 	{
 		lst->stop = 1;
-		return (lst->tree);
+		return (lst);
 	}
 //	if ((tree->childs[0]->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 //		error("ERROR : Malloc NULL.");
@@ -128,5 +150,5 @@ t_tree	*make_tree(t_hex *lst, t_tree *tree, int i)
 //		ft_putendl(tree->childs[i]->data);
 //		i++;
 //	}
-	return (tree);
+	return (lst);
 }
