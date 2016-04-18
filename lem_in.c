@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/14 18:24:14 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/18 17:53:42 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ int			main(void)
 	int		i;
 	char	*tab;
 	t_hex	*lst;
-//	t_tree	*tree;
+	t_tree	*tree;
 
-	if (((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL || (lst->tree =
+	if (((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL || (tree =
 				(t_tree*)malloc(sizeof(t_tree))) == NULL || (lst->links =
 				(t_links*)malloc(sizeof(t_links))) == NULL ||
 			(lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL))
@@ -123,21 +123,22 @@ int			main(void)
 	lst->tmpr = lst->rooms;
 	lst->tmpl = lst->links;
 	lst->start = NULL;
+//	lst->floor_max = 0;
 	lst->end = NULL;
 	lst->ants = 0;
 	tab = NULL;
 	i = 0;
 	lst = initialize(lst, tab);
 	checkstartend(lst);
-	if ((lst->tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
+	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
-	ft_strcpy(lst->tree->data, lst->start);
-	lst->tree->data = lst->start;
+	ft_strcpy(tree->data, lst->start);
+//	tree->data = lst->start;
 //	printf("tree->data = '%s'\n", tree->data);
-	lst->tree->parent = NULL;
-	lst->tree->childs = NULL;
-	lst->tree->floor = 0;
-	lst = make_tree(lst, lst->tree, 0);
+	tree->parent = NULL;
+	tree->childs = NULL;
+	lst->floor_max = 9223372036854775807;
+	make_tree(lst, tree, 1);
 	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 			lst->end);
 	while (lst->rooms->next != NULL)
