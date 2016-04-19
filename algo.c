@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 15:57:43 by droly             #+#    #+#             */
-/*   Updated: 2016/04/18 17:53:44 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/19 17:35:12 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_tree	*malloc_childs(t_tree *tree, t_hex *lst, int i, int i2)
 		tree->childs[i2] = (t_tree *)malloc(sizeof(t_tree));
 		i2++;
 	}
+	lst->links = lst->tmpl;
+	lst->rooms = lst->tmpr;
 	return (tree);
 }
 
@@ -66,6 +68,7 @@ t_tree	*make_childs(t_hex *lst, t_tree *tree, int i, int i2)
 	while (lst->links->next != NULL)
 	{
 //		sleep(1);
+//		ft_putchar('e');
 		if (ft_strcmp(lst->links->room1, tree->data) == 0)
 		{
 //			ft_putchar('r');
@@ -82,30 +85,40 @@ t_tree	*make_childs(t_hex *lst, t_tree *tree, int i, int i2)
 						lst->links->room2);
 				tree->childs[i]->floor = tree->floor + 1;
 				tree->childs[i]->parent = tree;
+//				ft_putstr(tree->childs[i]->data);
 //				ft_putendl(tree->childs[i]->data);
 				i++;
 			}
 		}
-//		ft_putchar('e');
 			if (ft_strcmp(lst->links->room2, tree->data) == 0)
 		{
 //			ft_putchar('u');
 			if (check_parents(lst, tree, lst->links->room1))
 			{
+//				ft_putchar('v');
+//				ft_putstr(lst->links->room1);
 //				printf("\nroom1 : %s salle : %d\n", lst->links->room1, i);
 				if ((tree->childs[i]->data =
 					(char *)malloc(ft_strlen(lst->links->room1) + 1)) == NULL)
-//					error("ERROR : Malloc NULL.");
+					error("ERROR : Malloc NULL.");
 				tree->childs[i]->data = ft_strcpy(tree->childs[i]->data,
 						lst->links->room1);
 				tree->childs[i]->floor = tree->floor + 1;
 				tree->childs[i]->parent = tree;
+//				ft_putstr(tree->childs[i]->data);
 				i++;
 			}
 		}
 		lst->links = lst->links->next;
 	}
+//	printf("\nparent : %s\n", tree->data);
+//	while (tree->childs[i + 1] != NULL)
+//	{
+//		printf("\nchilds->data[%i] : %s\n" ,i ,tree->childs[i]->data);
+//		i++;
+//	}
 	tree->childs[i] = NULL;
+	lst->links = lst->tmpl;
 	return (tree);
 }
 
@@ -157,33 +170,38 @@ t_tree	*make_childs(t_hex *lst, t_tree *tree, int i, int i2)
 	return (lst);
 }*/
 
+unsigned long long g_floor_max = 9223372036854775807;
+
 void	make_tree(t_hex *lst, t_tree *tree, unsigned long long floor)
 {
 	int i;
 
 	i = 0;
-	if (floor >= 2)
-		printf("\narbre etage : %d, arbre data : %s parent1 : %s\n", tree->floor, tree->data, tree->parent->data);
-	else
-		printf("\narbre etage : %d, arbre data : %s\n", tree->floor, tree->data);
-
+//	ft_putchar('e');
 	if (tree->childs == NULL)
 	{
 		tree = malloc_childs(tree, lst, 0, 0);
 		tree = make_childs(lst, tree, 0, 0);
 	}
-	while (tree->childs != NULL && tree->childs[i] != NULL)
+	printf("\narbre etage : %d, arbre data : %s\n child[0] : %s", tree->floor, tree->data, tree->childs[0]->data);
+	printf("\nfloor : %lld, floor_max %lld\n", floor, g_floor_max);
+	while (tree->childs != NULL && tree->childs[i] != NULL && floor <= g_floor_max)
 	{
-		if (ft_strcmp(tree->data, lst->end) == 0)
+//		printf("childs[%i] = '%s'\n", i, tree->childs[i]->data);
+		if (ft_strcmp(tree->childs[i]->data, lst->end) == 0)
 		{
-			ft_putchar('e');
-			lst->floor_max = floor;
+			ft_putchar('u');
+			g_floor_max = floor;
 			return ;
 		}
 		i++;
 	}
+	printf("i = %i\n", i);
 	i = 0;
-	printf("\nfloor : %lld, floor_max %lld\n", floor, lst->floor_max);
-	while (tree->childs[i] != NULL && floor < lst->floor_max)
-		make_tree(lst, tree->childs[i++], floor++);
+//	if (floor >= 2)
+//		printf("\narbre etage : %d, arbre data : %s parent1 : %s\n", tree->floor, tree->data, tree->parent->data);
+//	else
+	while (tree->childs[i] != NULL && floor <= g_floor_max)
+		make_tree(lst, tree->childs[i++], floor + 1);
+	lst->floor_max = g_floor_max;
 }

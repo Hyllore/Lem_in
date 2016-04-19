@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/18 17:53:42 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/19 17:34:17 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,14 @@ int			main(void)
 //	printf("tree->data = '%s'\n", tree->data);
 	tree->parent = NULL;
 	tree->childs = NULL;
-	lst->floor_max = 9223372036854775807;
+//	lst->floor_max = 9223372036854775807;
 	make_tree(lst, tree, 1);
+//	i = 0
+//	while (tree->childs[0] != NULL)
+//	{
+//		printf("arbre : %s", tree->data);
+//		tree = tree->childs[0];
+//	}
 	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 			lst->end);
 	while (lst->rooms->next != NULL)
