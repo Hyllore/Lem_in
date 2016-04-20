@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/19 17:34:17 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/20 18:41:17 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,6 @@ t_hex		*initialize(t_hex *lst, char *tab)
 		i = 0;
 		tab = checkdiese(tab);
 		ft_putendl(tab);
-//		ft_putnbr(ft_strlen(tab));
-//		tmp = malloc(sizeof(char*) * ft_strlen(tab));
-//		tmp = ft_strcpy(tmp, tab);
-//		while (tab[i] != '\0')
-//		{
-//			tmp[i] = tab[i];
-//			i++;
-//		}
-//		tmp[i] = '\0';
-//		i = 0;
 		lst = initializelst(tab, lst, 0);
 		ft_putstr(tmp);
 		if (ft_strchr(tab, '-') != NULL)
@@ -123,7 +113,6 @@ int			main(void)
 	lst->tmpr = lst->rooms;
 	lst->tmpl = lst->links;
 	lst->start = NULL;
-//	lst->floor_max = 0;
 	lst->end = NULL;
 	lst->ants = 0;
 	tab = NULL;
@@ -133,28 +122,19 @@ int			main(void)
 	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
 	ft_strcpy(tree->data, lst->start);
-//	tree->data = lst->start;
-//	printf("tree->data = '%s'\n", tree->data);
 	tree->parent = NULL;
 	tree->childs = NULL;
-//	lst->floor_max = 9223372036854775807;
 	make_tree(lst, tree, 1);
-//	i = 0
-//	while (tree->childs[0] != NULL)
+//	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
+//			lst->end);
+//	while (lst->rooms->next != NULL)
 //	{
-//		printf("arbre : %s", tree->data);
-//		tree = tree->childs[0];
+//		printf("\nroom : %s", lst->rooms->room);
+//		lst->rooms = lst->rooms->next;
 //	}
-	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
-			lst->end);
-	while (lst->rooms->next != NULL)
-	{
-		printf("\nroom : %s", lst->rooms->room);
-		lst->rooms = lst->rooms->next;
-	}
-	while (lst->links->next != NULL)
-	{
-		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
-		lst->links = lst->links->next;
-	}
+//	while (lst->links->next != NULL)
+//	{
+//		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
+//		lst->links = lst->links->next;
+//	}
 }
