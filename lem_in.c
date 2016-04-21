@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/20 18:41:17 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/21 18:29:08 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,14 @@ void		checkcoord(char *tab, int i, int i2)
 	addcheckcoord(tab, i, i2);
 }
 
-t_hex		*initialize(t_hex *lst, char *tab)
+t_hex		*initialize(t_hex *lst, char *tab, int i)
 {
-	int		i;
-	char	*tmp;
-
-	tmp = NULL;
-	i = 0;
 	while (get_next_line(0, &tab) == 1)
 	{
 		i = 0;
 		tab = checkdiese(tab);
 		ft_putendl(tab);
 		lst = initializelst(tab, lst, 0);
-		ft_putstr(tmp);
 		if (ft_strchr(tab, '-') != NULL)
 			lst = initiaizelinks(tab, lst);
 		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#' && tab[0] != 'L')
@@ -82,20 +76,38 @@ void		checkstartend(t_hex *lst)
 	i2 = 0;
 	while (lst->links->next != NULL)
 	{
-		if (ft_strcmp(lst->links->room1, lst->start) == 0 || ft_strcmp(lst->links->room2, lst->start) == 0)
+		if (ft_strcmp(lst->links->room1, lst->start) == 0 ||
+				ft_strcmp(lst->links->room2, lst->start) == 0)
 			i = 1;
 		lst->links = lst->links->next;
 	}
 	lst->links = lst->tmpl;
 	while (lst->links->next != NULL)
 	{
-		if (ft_strcmp(lst->links->room1, lst->end) == 0 || ft_strcmp(lst->links->room2, lst->end) == 0)
+		if (ft_strcmp(lst->links->room1, lst->end) == 0 ||
+				ft_strcmp(lst->links->room2, lst->end) == 0)
 			i2 = 1;
 		lst->links = lst->links->next;
 	}
 	lst->links = lst->tmpl;
 	if (i == 0 || i2 == 0)
 		error("ERROR : Ending or starting is not link with others rooms");
+}
+
+t_hex		*initialize_lst(t_hex *lst)
+{
+	if ((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL)
+		error("ERROR : Malloc NULL.");
+	if ((lst->links = (t_links*)malloc(sizeof(t_links))) == NULL)
+		error("ERROR : Malloc NULL.");
+	if ((lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL)
+		error("ERROR : Malloc NULL.");
+	lst->tmpr = lst->rooms;
+	lst->tmpl = lst->links;
+	lst->start = NULL;
+	lst->end = NULL;
+	lst->ants = 0;
+	return (lst);
 }
 
 int			main(void)
@@ -105,19 +117,12 @@ int			main(void)
 	t_hex	*lst;
 	t_tree	*tree;
 
-	if (((lst = (t_hex*)malloc(sizeof(t_hex))) == NULL || (tree =
-				(t_tree*)malloc(sizeof(t_tree))) == NULL || (lst->links =
-				(t_links*)malloc(sizeof(t_links))) == NULL ||
-			(lst->rooms = (t_rooms*)malloc(sizeof(t_rooms))) == NULL))
+	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL)
 		error("ERROR : Malloc NULL.");
-	lst->tmpr = lst->rooms;
-	lst->tmpl = lst->links;
-	lst->start = NULL;
-	lst->end = NULL;
-	lst->ants = 0;
+	lst = initialize_lst(lst);
 	tab = NULL;
 	i = 0;
-	lst = initialize(lst, tab);
+	lst = initialize(lst, tab, 0);
 	checkstartend(lst);
 	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
@@ -137,4 +142,5 @@ int			main(void)
 //		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
 //		lst->links = lst->links->next;
 //	}
+	return (0);
 }

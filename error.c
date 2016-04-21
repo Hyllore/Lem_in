@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 11:01:56 by droly             #+#    #+#             */
-/*   Updated: 2016/04/06 12:29:03 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/21 18:27:56 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	addchecklinks(t_hex *lst, int i)
 			lst->rooms = lst->rooms->next;
 		}
 		if (i == 0)
-			error("\nERROR : There is a room I don't know in here.");
+			lst = error_links(lst);
 		lst->links = lst->links->next;
 	}
 }
@@ -86,7 +86,7 @@ void	checklinks(t_hex *lst, int i)
 			lst->rooms = lst->rooms->next;
 		}
 		if (i == 0)
-			error("\nERROR : There is a room I don't kwow in here.");
+			lst = error_links(lst);
 		lst->links = lst->links->next;
 	}
 	addchecklinks(lst, 0);
