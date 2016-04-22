@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 16:24:14 by droly             #+#    #+#             */
-/*   Updated: 2016/04/22 16:16:01 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/22 18:47:10 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,9 @@ void	get_path(t_hex *lst, t_tree *tree, unsigned long long floor)
 	while (tree->childs != NULL && tree->childs[i] != NULL &&
 			floor <= lst->floor_max)
 		get_path(lst, tree->childs[i++], floor + 1);
+}
+
+void	apply_path(t_hex *lst,t_tree *tree)
+{
+	
 }

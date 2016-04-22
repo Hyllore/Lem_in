@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/22 16:15:59 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/22 18:47:13 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ t_hex		*initialize_lst(t_hex *lst)
 
 int			main(void)
 {
-	int		i;
 	char	*tab;
 	t_hex	*lst;
 	t_tree	*tree;
@@ -122,7 +121,6 @@ int			main(void)
 		error("ERROR : Malloc NULL.");
 	lst = initialize_lst(lst);
 	tab = NULL;
-	i = 0;
 	lst = initialize(lst, tab, 0);
 	checkstartend(lst);
 	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
@@ -132,16 +130,18 @@ int			main(void)
 	tree->childs = NULL;
 	make_tree(lst, tree, 1);
 	count_path(lst, tree, 1);
-	if ((lst->path = (char***)malloc(sizeof(char**) * (i + 1))) == NULL)
+	if ((lst->path = (char***)malloc(sizeof(char**) * (lst->i + 1))) == NULL)
 		error("ERROR : Malloc NULL.");
-	lst->path[i] = NULL;
+	lst->path[lst->i] = NULL;
 //	ft_putnbr(ft_strlen("bonjour"));
 //	ft_putnbr(lst->floor_max);
 	get_path(lst, tree, 1);
 //	apply_path(lst, tree);
-	ft_putstr(lst->path[0][0]);
-	ft_putstr(lst->path[0][1]);
-	ft_putstr(lst->path[0][2]);
+//	ft_putstr(lst->path[2][0]);
+//	ft_putstr(lst->path[2][1]);
+//	ft_putstr(lst->path[2][2]);
+//	ft_putstr(lst->path[0][3]);
+
 //	ft_putnbr(lst->i);
 //	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
 //			lst->end);

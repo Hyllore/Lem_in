@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 15:57:43 by droly             #+#    #+#             */
-/*   Updated: 2016/04/22 12:16:30 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/22 17:18:23 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void				make_tree(t_hex *lst, t_tree *tree,
 	{
 		if (ft_strcmp(tree->childs[i]->data, lst->end) == 0)
 		{
-			ft_putchar('u');
+//			ft_putchar('u');
 			g_floor_max = floor;
 			return ;
 		}
