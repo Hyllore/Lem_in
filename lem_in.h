@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/21 18:45:39 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/22 16:16:03 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ typedef struct						s_tree
 
 typedef struct						s_hex
 {
-	char							**path1;
-	char							**path2;
+	char							***path;
 	unsigned long long				floor_max;
-	unsigned long long				k;
+	int								i;
 	int								ants;
 	char							*start;
 	char							*end;
@@ -67,5 +66,9 @@ void								error(char *str);
 void								make_tree(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
 t_hex								*error_links(t_hex *lst);
+void								count_path(t_hex *lst, t_tree *tree,
+		unsigned long long floor);
+void								get_path(t_hex *lst, t_tree *tree,
+		unsigned long long floor);
 
 #endif

@@ -1,4 +1,5 @@
 4
+test 6 5
 cool 5 1
 ##start
 debut 4 5
@@ -7,6 +8,8 @@ debut 4 5
 fin 3 7
 3 5 4
 debut-cool
+debut-test
+test-fin
 ##filsdepute
 debut-3
 cool-fin
