@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/22 18:47:13 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/25 18:51:41 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,10 @@ int			main(void)
 //	ft_putnbr(ft_strlen("bonjour"));
 //	ft_putnbr(lst->floor_max);
 	get_path(lst, tree, 1);
-//	apply_path(lst, tree);
-//	ft_putstr(lst->path[2][0]);
-//	ft_putstr(lst->path[2][1]);
-//	ft_putstr(lst->path[2][2]);
+	apply_path(lst);
+//	ft_putstr(lst->path[1][0]);
+//	ft_putstr(lst->path[1][1]);
+//	ft_putstr(lst->path[1][2]);
 //	ft_putstr(lst->path[0][3]);
 
 //	ft_putnbr(lst->i);

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/23 15:59:21 by droly             #+#    #+#             */
-/*   Updated: 2015/12/04 10:34:16 by droly            ###   ########.fr       */
+/*   Created: 2015/12/16 17:36:05 by droly             #+#    #+#             */
+/*   Updated: 2015/12/16 17:38:16 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+int		ft_sqrt(int num)
 {
-	size_t	i;
+	int i;
 
-	i = 0;
-	while (src[i] && i < n)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	while (i < n)
-		dst[i++] = '\0';
-	return (dst);
+	i = 1;
+	if (num == 0)
+		return (0);
+	while (i * i <= num)
+		++i;
+	return (i);
 }

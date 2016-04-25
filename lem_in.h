@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/22 18:47:15 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/25 18:51:46 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,17 @@ typedef struct						s_tree
 	struct s_tree					**childs;
 }									t_tree;
 
+typedef struct						s_path
+{
+	int								index;
+	int								index2;
+	int								checkend;
+	char							*room;
+}									t_path;
+
 typedef struct						s_hex
 {
+	int								check;
 	char							***path;
 	unsigned long long				floor_max;
 	int								i;
@@ -70,5 +79,6 @@ void								count_path(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
 void								get_path(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
+void								apply_path(t_hex *lst);
 
 #endif
