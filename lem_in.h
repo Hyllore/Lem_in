@@ -6,12 +6,13 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/25 18:51:46 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 15:17:19 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
+# define IND lst->i3
 # include "ft_printf/ft_printf.h"
 # include "gnl/get_next_line.h"
 
@@ -46,6 +47,8 @@ typedef struct						s_path
 
 typedef struct						s_hex
 {
+	int								i2;
+	int								i3;
 	int								check;
 	char							***path;
 	unsigned long long				floor_max;
@@ -63,8 +66,7 @@ t_hex								*initiaizelinks(char *tab, t_hex *lst);
 void								addchecklinks(t_hex *lst, int i);
 void								checklinks(t_hex *lst, int i);
 t_hex								*analizestartend(t_hex *lst);
-t_hex								*initializelst(char *tab, t_hex *lst,
-		int i);
+t_hex								*initializelst(char *tab, t_hex *lst);
 t_hex								*initialize(t_hex *lst, char *tab, int i);
 char								*checkdiese(char *tab);
 char								*takename(char *startend, char *tab, int i,
@@ -79,6 +81,6 @@ void								count_path(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
 void								get_path(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
-void								apply_path(t_hex *lst);
+void								apply_path(t_hex *lst, t_path *ants);
 
 #endif

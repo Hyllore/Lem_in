@@ -3,41 +3,52 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aboucher <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: droly <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/09 14:31:39 by aboucher          #+#    #+#              #
-#    Updated: 2016/04/26 15:09:44 by droly            ###   ########.fr        #
+#    Created: 2016/03/17 16:34:45 by droly             #+#    #+#              #
+#    Updated: 2016/04/26 15:26:09 by droly            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = gnl
+NAME = lem-in
 
-SRC = get_next_line.c
+SRC = algo.c       \
+	  applypath.c  \
+	  error.c      \
+	  get_path.c   \
+	  initialize.c \
+	  lem_in.c     \
 
 OBJ = $(SRC:.c=.o)
 
-HEAD = get_next_line.h
+HEAD = lem_in.h
 
 FLAGS = -Wall -Werror -Wextra
 
 all: $(NAME)
 
-$(NAME): $(OBJ) makelibft
-	@clang $(FLAGS) -c $(SRC) -I$(HEAD)
-	@echo "Compilation success."
+$(NAME): $(OBJ) makegnl $(OBJ) makeprintf
+	@gcc $(FLAGS) -c $(SRC)
+	@gcc $(OBJ) gnl/get_next_line.o ft_printf/libftprintf.a -o $(NAME)
 
-makelibft:
-	@make -C libft/
-	@echo "Library included."
+makeprintf:
+	@make -C ft_printf/
+	@echo "ft_printf included"
+
+makegnl:
+	@make -C gnl/
+	@echo "Library and GNL included"
 
 clean:
 	@rm -f $(OBJ)
-	@make -C libft/ clean
+	@make -C gnl/ clean
+	@make -C ft_printf/ clean
 	@echo "Objects cleaned."
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C libft/ fclean
+	@make -C gnl/ fclean
+	@make -C ft_printf/ fclean
 	@echo "Target cleaned."
 
 re: fclean all

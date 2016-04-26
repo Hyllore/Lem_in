@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/05 15:58:30 by droly             #+#    #+#             */
-/*   Updated: 2016/04/21 14:49:52 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 15:19:13 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_hex	*initiaizelinks(char *tab, t_hex *lst)
 	return (analizestartend(lst));
 }
 
-t_hex	*initializelst(char *tab, t_hex *lst, int i)
+t_hex	*initializelst(char *tab, t_hex *lst)
 {
 	if (lst->ants == 0)
 		lst->ants = ft_atoi(tab);
@@ -78,7 +78,7 @@ t_hex	*initializelst(char *tab, t_hex *lst, int i)
 	return (lst);
 }
 
-int		addtakename(char *tab, int i, int i2, int i3)
+int		addtakename(char *tab, int i, int i3)
 {
 	while (tab[i] >= '0' && tab[i] <= '9')
 	{
@@ -102,7 +102,10 @@ char	*takename(char *startend, char *tab, int i, int i2)
 	while (i2 != 0)
 	{
 		if (tab[i] >= '0' && tab[i] <= '9')
-			i = addtakename(tab, i, i2--, i3);
+		{
+			i = addtakename(tab, i, i3);
+			i2--;
+		}
 		if (i2 != 0)
 			i--;
 	}

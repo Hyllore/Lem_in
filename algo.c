@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/06 15:57:43 by droly             #+#    #+#             */
-/*   Updated: 2016/04/22 17:18:23 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 15:09:02 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_tree		*malloc_childs(t_tree *tree, t_hex *lst, int i, int i2)
 	return (tree);
 }
 
-static int			check_parents(t_hex *lst, t_tree *tree, char *str)
+static int			check_parents(t_tree *tree, char *str)
 {
 	while (tree->parent != NULL)
 	{
@@ -67,7 +67,7 @@ static t_tree		*make_childs(t_hex *lst, t_tree *tree, int i)
 	while (lst->links->next != NULL)
 	{
 		if (ft_strcmp(lst->links->room1, tree->data) == 0 &&
-				check_parents(lst, tree, lst->links->room2) == 1)
+				check_parents(tree, lst->links->room2) == 1)
 		{
 			if ((tree->childs[i]->data =
 				(char *)malloc(ft_strlen(lst->links->room2) + 1)) == NULL)
@@ -80,7 +80,7 @@ static t_tree		*make_childs(t_hex *lst, t_tree *tree, int i)
 			i++;
 		}
 		if (ft_strcmp(lst->links->room2, tree->data) == 0 &&
-				check_parents(lst, tree, lst->links->room1))
+				check_parents(tree, lst->links->room1))
 			tree = add_make_childs(tree, lst, i++);
 		lst->links = lst->links->next;
 	}
@@ -102,17 +102,11 @@ void				make_tree(t_hex *lst, t_tree *tree,
 		tree = malloc_childs(tree, lst, 0, 0);
 		tree = make_childs(lst, tree, 0);
 	}
-//	if (tree->parent != NULL)
-//	printf("\nvaleur du parent : %s,etage du parent: %d, arbre data : %s\n child[0] : %s\n:", tree->parent->data, tree->floor, tree->data,
-//	tree->childs[0]->data);
-//	printf("\nfloor enfant: %lld, floor_max pour enfants %lld\n",
-//	floor, g_floor_max);
 	while (tree->childs != NULL && tree->childs[i] != NULL &&
 			floor < g_floor_max)
 	{
 		if (ft_strcmp(tree->childs[i]->data, lst->end) == 0)
 		{
-//			ft_putchar('u');
 			g_floor_max = floor;
 			return ;
 		}

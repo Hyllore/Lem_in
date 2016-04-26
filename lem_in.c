@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/25 18:51:41 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 15:17:29 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_hex		*initialize(t_hex *lst, char *tab, int i)
 		i = 0;
 		tab = checkdiese(tab);
 		ft_putendl(tab);
-		lst = initializelst(tab, lst, 0);
+		lst = initializelst(tab, lst);
 		if (ft_strchr(tab, '-') != NULL)
 			lst = initiaizelinks(tab, lst);
 		else if (ft_strchr(tab, ' ') != NULL && tab[0] != '#' && tab[0] != 'L')
@@ -117,6 +117,7 @@ int			main(void)
 	t_hex	*lst;
 	t_tree	*tree;
 
+	lst = NULL;
 	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL)
 		error("ERROR : Malloc NULL.");
 	lst = initialize_lst(lst);
@@ -133,27 +134,7 @@ int			main(void)
 	if ((lst->path = (char***)malloc(sizeof(char**) * (lst->i + 1))) == NULL)
 		error("ERROR : Malloc NULL.");
 	lst->path[lst->i] = NULL;
-//	ft_putnbr(ft_strlen("bonjour"));
-//	ft_putnbr(lst->floor_max);
 	get_path(lst, tree, 1);
-	apply_path(lst);
-//	ft_putstr(lst->path[1][0]);
-//	ft_putstr(lst->path[1][1]);
-//	ft_putstr(lst->path[1][2]);
-//	ft_putstr(lst->path[0][3]);
-
-//	ft_putnbr(lst->i);
-//	printf("\nfourmis : %d\nstart : %s\nend : %s", lst->ants, lst->start,
-//			lst->end);
-//	while (lst->rooms->next != NULL)
-//	{
-//		printf("\nroom : %s", lst->rooms->room);
-//		lst->rooms = lst->rooms->next;
-//	}
-//	while (lst->links->next != NULL)
-//	{
-//		printf("\nlinks : %s-%s", lst->links->room1, lst->links->room2);
-//		lst->links = lst->links->next;
-//	}
+	apply_path(lst, NULL);
 	return (0);
 }
