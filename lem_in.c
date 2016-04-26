@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 11:32:49 by droly             #+#    #+#             */
-/*   Updated: 2016/04/26 15:17:29 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 19:16:17 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 
 void		checkcoord(char *tab, int i, int i2)
 {
-	while (tab[i] != ' ' && tab[i] != '\0')
+	if (ft_strchr(tab, '-') == NULL)
 	{
-		i++;
-		if (tab[i] == '\0')
-			return ;
-	}
-	i = 0;
-	while (tab[i] != '\0')
-	{
-		if (tab[i] == ' ')
+		while (tab[i] != ' ' && tab[i] != '\0')
 		{
-			while (tab[i] == ' ')
-				i++;
-			i2++;
+			i++;
+			if (tab[i] == '\0')
+				return ;
 		}
-		i++;
+		i = 0;
+		while (tab[i] != '\0')
+		{
+			if (tab[i] == ' ')
+			{
+				while (tab[i] == ' ')
+					i++;
+				i2++;
+			}
+			i++;
+		}
+		if (i2 <= 1)
+			error("\nERROR : You forgot some coords you fool.");
+		i2--;
+		addcheckcoord(tab, 0, i2);
 	}
-	if (i2 <= 1)
-		error("\nERROR : You forgot some coords you fool.");
-	i2--;
-	i = 0;
-	addcheckcoord(tab, i, i2);
 }
 
 t_hex		*initialize(t_hex *lst, char *tab, int i)
@@ -104,6 +106,7 @@ t_hex		*initialize_lst(t_hex *lst)
 		error("ERROR : Malloc NULL.");
 	lst->tmpr = lst->rooms;
 	lst->tmpl = lst->links;
+	lst->floor_max = 0;
 	lst->start = NULL;
 	lst->end = NULL;
 	lst->ants = 0;
@@ -113,16 +116,13 @@ t_hex		*initialize_lst(t_hex *lst)
 
 int			main(void)
 {
-	char	*tab;
 	t_hex	*lst;
 	t_tree	*tree;
 
-	lst = NULL;
 	if ((tree = (t_tree*)malloc(sizeof(t_tree))) == NULL)
 		error("ERROR : Malloc NULL.");
-	lst = initialize_lst(lst);
-	tab = NULL;
-	lst = initialize(lst, tab, 0);
+	lst = initialize_lst(NULL);
+	lst = initialize(lst, NULL, 0);
 	checkstartend(lst);
 	if ((tree->data = (char *)malloc(ft_strlen(lst->start) + 1)) == NULL)
 		error("ERROR : Malloc NULL.");
@@ -130,11 +130,15 @@ int			main(void)
 	tree->parent = NULL;
 	tree->childs = NULL;
 	make_tree(lst, tree, 1);
+	if (lst->floor_max == 0)
+		lst->floor_max = 1;
 	count_path(lst, tree, 1);
+	if (lst->i == 0)
+		error("ERROR : No path found.");
 	if ((lst->path = (char***)malloc(sizeof(char**) * (lst->i + 1))) == NULL)
 		error("ERROR : Malloc NULL.");
 	lst->path[lst->i] = NULL;
 	get_path(lst, tree, 1);
 	apply_path(lst, NULL);
-	return (0);
+	free_all(lst, tree);
 }

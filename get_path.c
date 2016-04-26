@@ -6,18 +6,45 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/21 16:24:14 by droly             #+#    #+#             */
-/*   Updated: 2016/04/26 12:50:11 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 19:16:13 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
+void		free_all(t_hex *lst, t_tree *tree)
+{
+	free(lst->path);
+	free(lst->start);
+	while (lst->links->next != NULL)
+	{
+		lst->tmpl = lst->links;
+		free(lst->links->room1);
+		free(lst->links->room2);
+		lst->links = lst->links->next;
+		free(lst->tmpl);
+	}
+	while (lst->rooms->next != NULL)
+	{
+		lst->tmpr = lst->rooms;
+		lst->rooms = lst->rooms->next;
+		free(lst->tmpr);
+	}
+	free(lst);
+	free(tree->childs);
+	free(tree->data);
+	free(tree->parent);
+	free(tree);
+}
+
 t_hex			*error_links(t_hex *lst)
 {
 	lst->links->next->next = NULL;
 	lst->links = lst->tmpl;
-	while (lst->links->next->next->next != NULL)
-		lst->links = lst->links->next;
+	if (lst->links->next)
+		if (lst->links->next->next)
+			while (lst->links->next->next->next != NULL)
+				lst->links = lst->links->next;
 	lst->links->next->next = NULL;
 	return (lst);
 }

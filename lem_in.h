@@ -6,7 +6,7 @@
 /*   By: droly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/24 14:04:24 by droly             #+#    #+#             */
-/*   Updated: 2016/04/26 15:17:19 by droly            ###   ########.fr       */
+/*   Updated: 2016/04/26 19:17:31 by droly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void								count_path(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
 void								get_path(t_hex *lst, t_tree *tree,
 		unsigned long long floor);
+void								free_all(t_hex *lst, t_tree *tree);
 void								apply_path(t_hex *lst, t_path *ants);
 
 #endif
